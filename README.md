@@ -1,73 +1,62 @@
-# Purplle Store Intelligence System
+# 👁️ PaarvAi — Privacy Intelligence System
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
-![YOLOv8](https://img.shields.io/badge/YOLOv8-Detection-orange)
-![Docker](https://img.shields.io/badge/Docker-Enabled-blue)
-# 🛍️ Purplle Store Intelligence System
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi)](https://fastapi.tiangolo.com/)
+[![YOLOv8](https://img.shields.io/badge/YOLO-Detection%20%26%20Tracking-orange?logo=yolo)](https://github.com/ultralytics/ultralytics)
+[![Streamlit](https://img.shields.io/badge/Streamlit-PaarvAi%20Dashboard-FF4B4B?logo=streamlit)](https://streamlit.io/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8?logo=opencv)](https://opencv.org/)
+[![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker)](https://www.docker.com/)
 
-AI-powered retail analytics platform built for the **Purplle Store Intelligence Challenge 2026**.
-
-The system processes CCTV footage, tracks customer movement, generates store events, computes operational KPIs, and provides business insights through REST APIs and an interactive dashboard.
+**PaarvAi** (derived from the Tamil *Paarvai* — vision / sight) is an enterprise-grade AI computer vision and store intelligence system. It combines real-time object tracking, role-based facial recognition, live CCTV stream analytics, and an interactive dashboard to monitor retail occupancy, identify staff roles, and maintain operational privacy and security.
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
-### Computer Vision Pipeline
+### 🎥 Computer Vision & Real-Time Tracking
+- **YOLOv8 / YOLO26 Person Detection**: Detects visitors and staff across varied angles and lighting conditions.
+- **ByteTrack Multi-Object Tracking**: Stable trajectory estimation and ID persistence across occlusions.
+- **Role-Based Face Identification**: Uses OpenCV YuNet (detection) and SFace (deep recognition) to classify recognized individuals:
+  - ✨ **Visionary**: Leadership & Store Management
+  - 💻 **Hacker**: Technical Operations & Systems
+  - ⚡ **Hustler**: Sales, Engagement & Customer Support
+  - 👷 **Worker**: General Store Operations
+  - 🛍️ **Customer**: Anonymous visitors and shoppers
+- **Privacy-Preserving Architecture**: Differentiates between known authorized staff and customer sessions while keeping customer data anonymized with ephemeral session IDs.
 
-- YOLOv8 Person Detection
-- Multi-Person Tracking
-- Entry Detection
-- Exit Detection
-- Zone Entry Tracking
-- Zone Exit Tracking
-- Visitor Session Tracking
+### 📊 PaarvAi Interactive Dashboard
+- **📹 Live Web Cam Tab**: Direct, real-time camera feed processing with live HUD overlay, person counts, and staff identification alerts.
+- **🎥 WhatsApp Video Tab**: Dedicated CCTV video player with:
+  - **Live AI Detection Stream**: Real-time YOLO tracking, bounding boxes, role badges, and looping.
+  - **Native Video Player**: Embedded HTML5 player with timeline scrub, speed control, and fullscreen.
+- **📊 Executive Analytics Tab**: Real-time crowding alerts, behavioral anomaly detection, and customer funnel breakdown.
+- **👥 Staff & Role Directory**: Registered employee directory with profiles and assigned roles.
+- **📋 Real-Time Event Database**: Filterable database of entry/exit/zone events with one-click CSV export.
 
-### Analytics Engine
-
-- Occupancy Analytics
-- Peak Occupancy Tracking
-- Dwell Time Analytics
-- Funnel Analytics
-- KPI Dashboard
-- Crowding Detection
-- Anomaly Detection
-- Queue Completion Analytics
-- Queue Abandonment Analytics
-- POS Transaction Analytics
-
-### Platform
-
-- FastAPI Backend
-- Interactive Streamlit Dashboard
-- SQLite Event Storage
-- Swagger API Documentation
-- Docker Deployment
-- Health Monitoring Endpoint
+### 🔌 Backend & Infrastructure
+- **FastAPI REST API**: High-performance API endpoints for events, occupancy, crowding, anomaly, and funnel metrics.
+- **SQLite Database Persistence**: Robust storage of store events with graceful offline fallback if FastAPI is offline.
+- **Swagger / OpenAPI Documentation**: Auto-generated interactive API docs.
+- **Docker & Docker Compose**: Single-command containerized deployment.
 
 ---
 
 ## 🏗️ System Architecture
 
 ```text
-CCTV Video
-     ↓
-YOLOv8 Detection
-     ↓
-Person Tracking
-     ↓
-Event Generation
-     ↓
-Zone / Queue / POS Analytics
-     ↓
-SQLite Database
-     ↓
-Analytics Engine
-     ↓
-FastAPI APIs
-     ↓
-Streamlit Dashboard
+ CCTV / Web Cam Stream
+         ↓
+ YOLOv8 / YOLO26 Person Tracking (ByteTrack)
+         ↓
+ Face Crop Extraction → YuNet + SFace Recognizer
+         ↓
+ Role & Identity Classification (Staff vs. Customer)
+         ↓
+ Event Generation (Entry, Exit, Dwell, Zone)
+         ↓
+ SQLite Database Persistence
+         ↓
+ FastAPI REST APIs  ⟷  PaarvAi Streamlit Dashboard
 ```
 
 ---
@@ -75,319 +64,159 @@ Streamlit Dashboard
 ## 📂 Project Structure
 
 ```text
-store-intelligence-system/
+Privacy-Intelligence-System/
 ├── app/
-│   ├── main.py
-│   ├── database.py
-│   ├── models.py
-│   ├── analytics.py
-│   ├── occupancy.py
-│   ├── dwell_time.py
-│   ├── crowding.py
-│   ├── anomaly.py
-│   ├── kpi.py
-│   └── pos.py
-
+│   ├── main.py              # FastAPI application & REST endpoints
+│   ├── database.py          # SQLAlchemy engine & SQLite configuration
+│   ├── models.py            # Pydantic & SQLAlchemy ORM schemas
+│   ├── analytics.py         # Customer count & occupancy analytics
+│   ├── occupancy.py         # Live occupancy tracking
+│   ├── dwell_time.py        # Dwell time calculation
+│   ├── crowding.py          # Crowding alert triggers
+│   ├── anomaly.py           # Behavioral anomaly detection
+│   ├── kpi.py               # Operational KPI computations
+│   └── pos.py               # Point-of-Sale transaction metrics
+│
 ├── dashboard/
-│   └── app.py
-
+│   └── app.py               # PaarvAi multi-tab interactive Streamlit dashboard
+│
 ├── pipeline/
-│   ├── detect_people.py
-│   ├── track_people.py
-│   ├── event_generator.py
-│   ├── session_tracker.py
-│   ├── zone_tracker.py
-│   └── zones.py
-
-├── sample_data/
-│   ├── pos_transaction.json
-│   ├── sample_datastore_video.mp4
-│   └── output.mp4
-
-├── docs/
-│   ├── architecture.md
-│   ├── dashboard.png
-│   ├── swagger.png
-│   ├── camera_output_1.png
-│   ├── camera_output_2.png
-│   └── PROGRESS.md
-
-├── tests/
-
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-├── README.md
-├── DESIGN.md
-├── CHOICES.md
-├── store.db
-└── yolov8n.pt
+│   ├── track_and_identify.py# Main pipeline (YOLO + Face Recognition + DB logging)
+│   ├── track_people.py      # Ultralytics YOLO ByteTrack script
+│   ├── detect_people.py     # Person detection & video writer
+│   ├── face_recognizer.py   # YuNet detection & SFace cosine similarity matcher
+│   ├── person_classifier.py # Role classifier (Visionary, Hacker, Hustler, Customer)
+│   ├── event_generator.py   # Event logger to SQLite database
+│   ├── session_tracker.py   # Visitor session lifecycle tracking
+│   └── zones.py             # Store zone definition & tracking
+│
+├── known_people/            # Registered employee reference portraits
+│   ├── Lakshana_EMP-001.jpg
+│   ├── Mehaa_EMP-003.jpg
+│   ├── Rithika_EMP-005.jpg
+│   ├── Shirley_EMP-002.jpg
+│   └── Tejas_EMP-004.jpg
+│
+├── models/                  # Face detection (YuNet) & recognition (SFace) ONNX models
+├── sample_data/             # CCTV video samples & POS transactions
+├── requirements.txt         # Project dependencies
+├── Dockerfile               # Production Docker container definition
+├── docker-compose.yml       # Multi-service container orchestration
+└── README.md
 ```
 
 ---
 
-## 📊 Dashboard Features
+## 💻 Quick Start Guide
 
-The Streamlit dashboard provides:
+### 1. Prerequisites
+- Python 3.10+ (Python 3.11 recommended)
+- Webcam (optional, for live camera tracking)
 
-- Total Events
-- Entry Count
-- Exit Count
-- Active Visitors
-- System Health Status
-- Crowding Alerts
-- Anomaly Monitoring
-- KPI Overview
-- Queue Monitoring
-- Zone Activity Insights
-- POS Performance Metrics
+### 2. Installation
+Clone the repository and install required dependencies:
+```bash
+git clone https://github.com/lakshana-gs/Privacy-Intelligence-System.git
+cd Privacy-Intelligence-System
+pip install -r requirements.txt
+```
 
----
+### 3. Launching the System
 
-# 📸 Screenshots
+#### Option A: Start Dashboard & Backend
+In Terminal 1 (Start FastAPI Backend):
+```bash
+uvicorn app.main:app --reload --port 8000
+```
 
-## Dashboard
+In Terminal 2 (Start PaarvAi Streamlit Dashboard):
+```bash
+streamlit run dashboard/app.py
+```
 
-Interactive retail analytics dashboard.
-
-![Dashboard](docs/dashboard.png)
-
----
-
-## Swagger API Documentation
-
-FastAPI auto-generated API documentation.
-
-![Swagger](docs/swagger.png)
+- **PaarvAi Dashboard**: [http://localhost:8501](http://localhost:8501)
+- **FastAPI Swagger API**: [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ---
 
-## Detection Pipeline Output
+### 4. Running the Detection Pipeline via CLI
 
-YOLOv8 detecting and tracking customers inside the retail store.
+#### Process CCTV Video File:
+```bash
+python pipeline/track_and_identify.py --source "sample_data/WhatsApp Video 2026-11-12 at 12.30.21.mp4" --save --output "runs/WhatsApp_Video_result.mp4"
+```
 
-![Camera Output 1](docs/camera_output_1.png)
+#### Run on Live Webcam (Camera Index 0):
+```bash
+python pipeline/track_and_identify.py --source 0
+```
+
+#### Run Ultralytics YOLO Tracking:
+```bash
+python pipeline/track_people.py "sample_data/WhatsApp Video 2026-11-12 at 12.30.21.mp4"
+```
 
 ---
 
-## Visitor Tracking Example 2
+## 🐳 Running with Docker
 
-Multi-person tracking with unique visitor IDs.
-
-![Camera Output 2](docs/camera_output_2.png)
-
----
-
-# 🐳 Running With Docker
-
-Build and start the application:
+Deploy the complete stack using Docker Compose:
 
 ```bash
 docker compose up --build
 ```
 
-FastAPI:
-
-```text
-http://localhost:8000
-```
-
-Swagger Documentation:
-
-```text
-http://localhost:8000/docs
-```
+Access services:
+- **FastAPI**: `http://localhost:8000`
+- **Swagger Documentation**: `http://localhost:8000/docs`
 
 ---
 
-# 💻 Running Without Docker
+## 🔌 API Endpoints Reference
 
-Install dependencies:
+### Event Management
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/events` | List all recorded store events |
+| `POST` | `/events` | Ingest a new visitor entry/exit event |
+| `POST` | `/events/ingest` | Ingest structured telemetry event |
 
-```bash
-pip install -r requirements.txt
-```
-
-Start FastAPI:
-
-```bash
-uvicorn app.main:app --reload
-```
-
-Start Dashboard:
-
-```bash
-streamlit run dashboard/app.py
-```
-
----
-
-# 🎥 Running The Detection Pipeline
-
-Process CCTV footage:
-
-```bash
-python pipeline/track_people.py
-```
-
-The pipeline:
-
-- Detects people using YOLOv8
-- Tracks visitors across frames
-- Generates store events
-- Stores results in SQLite
-
-Generated events are persisted in:
-
-```text
-store.db
-```
+### Analytics & Intelligence
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/metrics` | Total events, entries, and exits |
+| `GET` | `/crowding` | Real-time visitor count & crowding alert status |
+| `GET` | `/anomaly` | Behavioral anomaly detection analysis |
+| `GET` | `/funnel` | In-store customer conversion funnel |
+| `GET` | `/kpis` | Operational retail KPIs summary |
+| `GET` | `/queue` | Queue completion & abandonment analytics |
+| `GET` | `/zones` | Zone entry & dwell time analytics |
+| `GET` | `/pos` | POS transactions, revenue, and average basket value |
+| `GET` | `/health` | Service and database health check |
 
 ---
 
-# 🔌 API Endpoints
+## 👥 Roles & Category Mapping
 
-## Event APIs
-
-- GET /events
-- POST /events
-- POST /events/ingest
-
-## Analytics APIs
-
-- GET /metrics
-- GET /crowding
-- GET /anomaly
-- GET /funnel
-- GET /kpis
-- GET /queue
-- GET /zones
-- GET /pos
-
-### Queue Analytics
-
-`GET /queue`
-
-Example Response:
-
-```json
-{
-  "completed": 5,
-  "abandoned": 2
-}
-```
-
-### Zone Analytics
-
-`GET /zones`
-
-Example Response:
-
-```json
-{
-  "zone_entries": 12,
-  "zone_exits": 10
-}
-```
-
-### POS Analytics
-
-`GET /pos`
-
-Example Response:
-
-```json
-{
-  "transactions": 3,
-  "revenue": 2700,
-  "avg_basket_value": 900
-}
-```
-
-## Health API
-
-- GET /health
-
-## Store Analytics
-
-```text
-GET /stores/{store_id}/metrics
-GET /stores/{store_id}/funnel
-```
-
-Example:
-
-```text
-GET /stores/STORE_BLR_002/metrics
-GET /stores/STORE_BLR_002/funnel
-```
----
-
-# ❤️ Health Monitoring
-
-Health endpoint verifies:
-
-- API Availability
-- Database Connectivity
-- Service Status
-
-Example Response:
-
-```json
-{
-  "status": "healthy",
-  "database": "connected",
-  "api": "running",
-  "service": "store-intelligence-system"
-}
-```
+| Role | Badge | Description | Examples |
+|---|---|---|---|
+| **Visionary** | ✨ | Leadership, management, and strategic overview | Tejas (`EMP-004`) |
+| **Hacker** | 💻 | Technical operations, system maintenance | Lakshana (`EMP-001`), Mehaa (`EMP-003`) |
+| **Hustler** | ⚡ | Sales, customer engagement, POS checkout | Shirley (`EMP-002`), Rithika (`EMP-005`) |
+| **Worker** | 👷 | General store associates and staff | Registered Team |
+| **Customer** | 🛍️ | Anonymous store visitors and shoppers | Dynamic Track IDs |
 
 ---
 
-# 📄 Documentation
-
-Additional documentation included:
-
-- DESIGN.md
-- CHOICES.md
-
-These documents explain:
-
-- Architecture Decisions
-- Engineering Tradeoffs
-- Scalability Considerations
-- Future Improvements
+## 🛡️ Privacy & Security Best Practices
+- **Customer Anonymization**: No biometric templates are stored for unregistered visitors; tracking uses ephemeral bounding box track IDs.
+- **Local On-Premises Processing**: Computer vision models run entirely locally without transmitting video streams to third-party cloud services.
+- **Secure Access**: Credentials and API tokens are excluded from version control via `.gitignore`.
 
 ---
 
-# 🔮 Future Improvements
+## 👩‍💻 Author & Repository
 
-- Multi-Camera Tracking & Re-Identification
-- PostgreSQL Integration
-- Real-Time Event Streaming
-- Visitor-to-POS Attribution
-- Staff/Customer Differentiation
-- Age & Gender Prediction
-- Advanced Visitor Re-Identification
-- Cloud Deployment
-
----
-
-# 🛠️ Tech Stack
-
-- Python
-- YOLOv8
-- OpenCV
-- FastAPI
-- Streamlit
-- SQLite
-- SQLAlchemy
-- Docker
-- Swagger/OpenAPI
----
-
-# 👩‍💻 Author
-
-**Pavani Ravuvari**
-
-Purplle Store Intelligence Challenge 2026
+- **Author**: [Lakshana G S](https://github.com/lakshana-gs)
+- **Repository**: [https://github.com/lakshana-gs/Privacy-Intelligence-System](https://github.com/lakshana-gs/Privacy-Intelligence-System)
+- **License**: MIT License
