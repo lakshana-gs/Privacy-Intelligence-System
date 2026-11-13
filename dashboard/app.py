@@ -382,9 +382,9 @@ with tab_webcam:
 
     c_wc_btn1, c_wc_btn2 = st.columns([1.5, 1.5])
     with c_wc_btn1:
-        wc_start = st.button("▶️ Start Live Webcam", type="primary", use_container_width=True, key="wc_start")
+        wc_start = st.button("▶️ Start Live Webcam", type="primary", width="stretch", key="wc_start")
     with c_wc_btn2:
-        wc_stop = st.button("⏹️ Stop Webcam", use_container_width=True, key="wc_stop")
+        wc_stop = st.button("⏹️ Stop Webcam", width="stretch", key="wc_stop")
 
     st.write("---")
 
@@ -505,7 +505,7 @@ with tab_webcam:
                         cv2.putText(frame, hud_text, (15, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (230, 230, 255), 2)
 
                         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                        wc_frame_placeholder.image(rgb_frame, channels="RGB", use_container_width=True)
+                        wc_frame_placeholder.image(rgb_frame, channels="RGB", width="stretch")
 
                         wc_telemetry_box.markdown(f"""
                         <div style="background:#0F172A; border:1px solid #38BDF8; border-radius:12px; padding:14px;">
@@ -601,9 +601,9 @@ with tab_whatsapp:
             st.markdown("#### 🎥 Live AI Detection & Recognition Stream")
             c_wa1, c_wa2, c_wa_conf, c_wa_loop = st.columns([1.5, 1.5, 2, 2])
             with c_wa1:
-                wa_start = st.button("▶️ Start Live Stream", type="primary", use_container_width=True, key="wa_start")
+                wa_start = st.button("▶️ Start Live Stream", type="primary", width="stretch", key="wa_start")
             with c_wa2:
-                wa_stop = st.button("⏹️ Stop Stream", use_container_width=True, key="wa_stop")
+                wa_stop = st.button("⏹️ Stop Stream", width="stretch", key="wa_stop")
             with c_wa_conf:
                 wa_conf_val = st.slider("Detection Confidence", 0.20, 0.90, 0.35, 0.05, key="wa_conf")
             with c_wa_loop:
@@ -713,7 +713,7 @@ with tab_whatsapp:
                                 cv2.putText(frame, hud_text, (15, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (230, 230, 255), 2)
 
                                 rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                                wa_video_placeholder.image(rgb_frame, channels="RGB", use_container_width=True)
+                                wa_video_placeholder.image(rgb_frame, channels="RGB", width="stretch")
 
                                 wa_telemetry_box.markdown(f"""
                                 <div style="background:#0F172A; border:1px solid #38BDF8; border-radius:12px; padding:14px;">
@@ -752,7 +752,7 @@ with tab_whatsapp:
                         cv2.rectangle(prev_frame, (0, 0), (prev_frame.shape[1], 46), (15, 15, 25), -1)
                         cv2.putText(prev_frame, "PaarvAi WhatsApp CCTV - Click 'Start Live Stream' to track",
                                     (15, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (255, 255, 255), 2)
-                        wa_video_placeholder.image(cv2.cvtColor(prev_frame, cv2.COLOR_BGR2RGB), channels="RGB", use_container_width=True)
+                        wa_video_placeholder.image(cv2.cvtColor(prev_frame, cv2.COLOR_BGR2RGB), channels="RGB", width="stretch")
                     cap_prev.release()
 
 # =============================================================================
@@ -848,7 +848,7 @@ with tab_staff:
 
             img_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", staff["img"]))
             if os.path.exists(img_path):
-                st.image(img_path, use_container_width=True)
+                st.image(img_path, width="stretch")
             else:
                 st.markdown(f"<div style='height:140px; background:#1F2937; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:36px;'>👤</div>", unsafe_allow_html=True)
             
@@ -878,7 +878,7 @@ with tab_events:
     with col_refresh:
         st.write("")
         st.write("")
-        refresh_btn = st.button("🔄 Refresh Data", use_container_width=True)
+        refresh_btn = st.button("🔄 Refresh Data", width="stretch")
 
     try:
         conn = sqlite3.connect(DB_PATH)
@@ -897,7 +897,7 @@ with tab_events:
         conn.close()
 
         if not df_events.empty:
-            st.dataframe(df_events, use_container_width=True, height=450)
+            st.dataframe(df_events, width="stretch", height=450)
             csv = df_events.to_csv(index=False).encode('utf-8')
             st.download_button(
                 label="📥 Export Event Logs as CSV",
